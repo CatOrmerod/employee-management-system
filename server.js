@@ -10,7 +10,7 @@ const connection = mysql.createConnection({
     port: 3306,
     user: 'root',
     password: 'SQL4rch13',
-    database: employeeDB
+    database: employeeDB,
     // host: process.env.host,
     // port: process.env.port,
     // user: process.env.username,
