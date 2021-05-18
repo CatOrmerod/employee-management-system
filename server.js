@@ -3,14 +3,19 @@ const inquirer = require('inquirer');
 const consoletable = require('console.table')
 const logo = require('asciiart-logo')
 
-require('dotenv').config()
+//require('dotenv').config()
 
 const connection = mysql.createConnection({
-    host: process.env.host,
-    port: process.env.port,
-    user: process.env.username,
-    password: process.env.password,
-    database: process.env.database
+    host: 'localhost',
+    port: 3306,
+    user: 'root',
+    password: 'SQL4rch13',
+    database: employeeDB
+    // host: process.env.host,
+    // port: process.env.port,
+    // user: process.env.username,
+    // password: process.env.password,
+    // database: process.env.database
 });
 
 connection.connect((err) => {
