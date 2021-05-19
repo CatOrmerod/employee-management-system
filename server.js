@@ -1,7 +1,6 @@
 const mysql = require('mysql');
-const inquirer = require('inquirer');
-const consoletable = require('console.table')
 const logo = require('asciiart-logo')
+const { promptUser } = require('./utils/index')
 
 require('dotenv').config()
 
@@ -35,4 +34,5 @@ afterConnection = () => {
             .emptyLine()
             .render()
     )
+    promptUser();
 }
