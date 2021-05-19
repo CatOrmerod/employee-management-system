@@ -1,5 +1,5 @@
 const inquirer = require('inquirer')
-const functions = require('/functions')
+const functions = require('./functions')
 
 const promptUser = () => {
     return inquirer.prompt({
