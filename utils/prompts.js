@@ -55,31 +55,31 @@ const { deptArr, empArr, roleArr } = require('./arrays')
 //         });
 // };
 
-const promptUser = () => {
-    console.log("prompt user called")
-    return inquirer.prompt({
-        type: 'list',
-        name: 'action',
-        message: 'What would you like to do?',
-        choices: [
-            'View all Employees',
-            'View all Employees by Department',
-            'View all Employees by Manager',
-            'Add Employee',
-            'Remove Employee',
-            'Update Employee Role',
-            'Update Employee Manager',
-            'View all Roles',
-            'Add Role',
-            'Remove Role',
-            'View all Departments',
-            'Add Department',
-            'Remove Department',
-            'View Department budget',
-            'Exit',
-        ],
-    })
-}
+// const promptUser = () => {
+//     console.log("prompt user called")
+//     return inquirer.prompt({
+//         type: 'list',
+//         name: 'action',
+//         message: 'What would you like to do?',
+//         choices: [
+//             'View all Employees',
+//             'View all Employees by Department',
+//             'View all Employees by Manager',
+//             'Add Employee',
+//             'Remove Employee',
+//             'Update Employee Role',
+//             'Update Employee Manager',
+//             'View all Roles',
+//             'Add Role',
+//             'Remove Role',
+//             'View all Departments',
+//             'Add Department',
+//             'Remove Department',
+//             'View Department budget',
+//             'Exit',
+//         ],
+//     })
+// }
 
 const promptAddDepartment = () => {
     return inquirer.prompt({
@@ -204,4 +204,4 @@ const promptUpdateEmployee = (empArr, roleArr) => {
     ])
 }
 
-module.exports = { promptUser, promptAddDepartment, promptAddRole, promptAddEmployee, promptRemoveDepartment, promptRemoveRole, promptRemoveEmployee, promptUpdateEmployee, promptAddEmployee }
+module.exports = { promptAddDepartment, promptAddRole, promptAddEmployee, promptRemoveDepartment, promptRemoveRole, promptRemoveEmployee, promptUpdateEmployee, promptAddEmployee }
