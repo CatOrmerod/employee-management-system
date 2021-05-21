@@ -1,33 +1,14 @@
 const inquirer = require('inquirer')
 const functions = require('./functions')
+const { promptUser } = require('./prompts')
 
-const promptUser = () => {
-    return inquirer.prompt({
-        type: 'list',
-        name: 'initial list',
-        message: 'What would you like to do?',
-        choices: [
-            'View all Employees',
-            'View all Employees by Department',
-            'View all Employees by Manager',
-            'Add Employee',
-            'Remove Employee',
-            'Update Employee Role',
-            'Update Employee Manager',
-            'View all Roles',
-            'Add Role',
-            'Remove Role',
-            'View all Departments',
-            'Add Department',
-            'Remove Department',
-            'View Department budget',
-            'Exit',
-        ],
-    })
+const promptHandler = () => {
+    console.log("prompt handler called", promptUser)
+    promptUser()
         .then((answer) => {
             switch (answer.action) {
                 case 'View all Employees':
-                    viewEmployees();
+                    functions.viewEmployees();
                     break;
                 case 'View all Employees by Department':
                     viewEmployeesDept();
@@ -36,22 +17,19 @@ const promptUser = () => {
                     viewEmployeesMan();
                     break;
                 case 'Add Employee':
-                    addEmployee();
+                    functions.addEmployee();
                     break;
                 case 'Remove Employee':
                     removeEmployee();
                     break;
-                case 'Update Employee Role':
-                    updateEmployeeRole();
-                    break;
-                case 'Update Employee Manager':
-                    updateEmployeeMan();
+                case 'Update Employee':
+                    updateEmployee();
                     break;
                 case 'View all Roles':
-                    viewRoles();
+                    functions.viewRoles();
                     break;
                 case 'Add Role':
-                    addRole();
+                    functions.addRole();
                     break;
                 case 'Remove Role':
                     removeRole();
@@ -66,13 +44,15 @@ const promptUser = () => {
                     removeDepartment();
                     break;
                 case 'View Department budget':
-                    viewDepartmentBudget();
+                    functions.viewDepartmentBudget();
                     break;
                 case 'Exit':
                     endPrompts();
                     break;
 
             }
+            //promptHandler()
         });
 };
-module.exports = { promptUser }
+
+module.exports = { promptHandler }
