@@ -1,49 +1,41 @@
-const mysql = require('mysql');
 const connection = require('./connection');
-const deptArr = [];
-const empArr = [];
-const roleArr = [];
 
-const getDeptArr = () => {
+const getDeptArr = (cb) => {
     const query = 
         `SELECT * from departments`;
     connection.query(query, (err, res) => {
         if (err) throw err;
-        res.forEach(row => {
-            deptArr.push({
-                id: row.id,
-                name: row.name
-            })
+        const deptArr = res.map(department => {
+            return {value: department.id, name: department.name}
         })
+        cb(deptArr)
     });
 };
 
-const getEmpArr = () => {
+const getEmpArr = (cb) => {
     const query = 
         `SELECT * from employee`;
     connection.query(query, (err, res) => {
         if (err) throw err;
-        res.forEach(row => {
-            empArr.push({
-                id: row.id,
-                name: row.name
-            })
+        const empArr = res.map(employee => { 
+            return {value: employee.id, name: `${employee.first_name} ${employee.last_name}` }
         })
+        cb(empArr)
     });
 };
 
-const getRoleArr = () => {
+const getRoleArr = (cb) => {
+    console.log('getting roles')
     const query = 
         `SELECT * from role`;
     connection.query(query, (err, res) => {
         if (err) throw err;
-        res.forEach(row => {
-            roleArr.push({
-                id: row.id,
-                name: row.name
-            })
+        const roleArr = res.map(role => { 
+            return {value: role.id, name: role.title }
         })
+        console.log('calling cb', roleArr)
+        cb(roleArr)
     });
 };
 
-module.exports = {deptArr, roleArr, empArr}
+module.exports = {getDeptArr, getEmpArr, getRoleArr}
