@@ -7,7 +7,7 @@ const { queryHandler } = require('./query');
 
 const viewDepartments = () => {
     console.log('Showing all departments...\n');
-    const query = 
+    const query =
         `SELECT department.id AS id,
         department.name AS Department 
         FROM department`;
@@ -16,7 +16,7 @@ const viewDepartments = () => {
 
 const viewRoles = () => {
     console.log('Showing all roles...\n');
-    const query = 
+    const query =
         `SELECT role.id AS id, 
         role.title AS 'Job Title', 
         department.name AS Department 
@@ -27,7 +27,7 @@ const viewRoles = () => {
 
 const viewEmployees = () => {
     console.log('Showing all employees...\n');
-    const query = 
+    const query =
         `SELECT employee.id AS id, 
         CONCAT (employee.first_name, " ", employee.last_name) AS 'Employee Name',
         role.title AS 'Job Title', 
@@ -42,7 +42,7 @@ const viewEmployees = () => {
 
 const viewDepartmentBudget = () => {
     console.log('Showing budget by Department...\n');
-    const query = 
+    const query =
         `SELECT department_id AS id, 
         department.name AS Department,
         SUM(salary) AS Budget
@@ -55,16 +55,16 @@ const viewDepartmentBudget = () => {
 const addRole = () => {
     arrays.getDeptArr(deptArr => {
         prompts.promptAddRole(deptArr)
-        .then((answer) => {
-            const departmentID = answer.deptName
-            const query = `INSERT INTO roles (title, salary, department_id)
+            .then((answer) => {
+                const departmentID = answer.deptName
+                const query = `INSERT INTO roles (title, salary, department_id)
             VALUES (?, ?, ?)`;
-            const params = [answer.roleName, answer.roleSalary, departmentID]
-            queryHandler(query, params);  
-        });
+                const params = [answer.roleName, answer.roleSalary, departmentID]
+                queryHandler(query, params);
+            });
         console.log('Added Role successfully...\n');
     });
-    
+
 }
 
 const addEmployee = () => {
@@ -72,21 +72,21 @@ const addEmployee = () => {
         arrays.getEmpArr(empArr => {
             console.log('executing callback')
             prompts.promptAddEmployee(roleArr, empArr)
-            .then((answer) => {
-                console.log(answer)
-                const query = `INSERT INTO employee (first_name, last_name, role_id, manager_id)
+                .then((answer) => {
+                    console.log(answer)
+                    const query = `INSERT INTO employee (first_name, last_name, role_id, manager_id)
                 VALUES (?, ?, ?, ?)`;
-                const roleID = answer.empRole
-                const managerID = answer.empMan
-                const params = [answer.empFirstName, answer.empLastName, roleID, managerID,];
-                queryHandler(query, params);
-            });
-            console.log('Added Employee successfully...\n'); 
-        }) ;
-        })
-        
-    
+                    const roleID = answer.empRole
+                    const managerID = answer.empMan
+                    const params = [answer.empFirstName, answer.empLastName, roleID, managerID,];
+                    queryHandler(query, params);
+                });
+            console.log('Added Employee successfully...\n');
+        });
+    })
+
+
 }
 
-module.exports = {viewDepartments, viewRoles, viewEmployees, viewDepartmentBudget, addRole, addEmployee} 
+module.exports = { viewDepartments, viewRoles, viewEmployees, viewDepartmentBudget, addRole, addEmployee }
 
