@@ -1,6 +1,6 @@
 const functions = require('./functions')
 const arrays = require('./arrays');
-const { queryHandler } = require('./query');
+const { queryHandler, endPrompts } = require('./query');
 const prompts = require('./prompts');
 
 const promptHandler = () => {
@@ -65,6 +65,7 @@ const confirmPrompt = () => {
             if (answer.confirm)
                 promptHandler();
             else console.log('Programme finished')
+                endPrompts();
         })
 }
 

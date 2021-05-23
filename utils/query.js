@@ -11,4 +11,6 @@ const queryHandler = (query, params) => {
     //promptHandler()
 };
 
-module.exports = { queryHandler };
+const endPrompts = () => connection.end();
+
+module.exports = { queryHandler, endPrompts };
