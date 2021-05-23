@@ -2,7 +2,7 @@ const connection = require('./connection');
 
 const getDeptArr = (cb) => {
     const query = 
-        `SELECT * from departments`;
+        `SELECT * from department`;
     connection.query(query, (err, res) => {
         if (err) throw err;
         const deptArr = res.map(department => {

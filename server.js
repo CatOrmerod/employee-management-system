@@ -1,5 +1,5 @@
 const logo = require('asciiart-logo')
-const { promptHandler } = require('./utils/confirmPrompt')
+const { promptHandler, confirmPrompt } = require('./utils/index')
 const connection = require('./utils/connection')
 
 connection.connect((err) => {
@@ -16,8 +16,8 @@ afterConnection = () => {
             padding: 2,
             margin: 3,
             borderColor: 'grey',
-            logoColor: 'bold-green',
-            textColor: 'green',
+            logoColor: 'bold-pink',
+            textColor: 'pink',
         })
             .emptyLine()
             .right('Cat Ormerod')

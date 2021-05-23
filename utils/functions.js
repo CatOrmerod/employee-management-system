@@ -1,17 +1,17 @@
-const inquirer = require('inquirer');
 const arrays = require('./arrays');
-const connection = require('./connection');
-const prompts = require('./prompts');
 const { queryHandler } = require('./query');
-//const { promptHandler } = require('./index');
+const { confirmPrompt } = require('./index')
+const prompts = require('./prompts');
+
 
 const viewDepartments = () => {
     console.log('Showing all departments...\n');
     const query =
         `SELECT department.id AS id,
-        department.name AS Department 
+        department.name AS 'Department'
         FROM department`;
-    queryHandler(query)
+    queryHandler(query);
+    confirmPrompt();
 };
 
 const viewRoles = () => {
@@ -19,25 +19,28 @@ const viewRoles = () => {
     const query =
         `SELECT role.id AS id, 
         role.title AS 'Job Title', 
-        department.name AS Department 
+        department.name AS 'Department'
         FROM role
         INNER JOIN department ON role.department_id = department.id`;
     queryHandler(query);
+    confirmPrompt();
 };
 
 const viewEmployees = () => {
     console.log('Showing all employees...\n');
     const query =
-        `SELECT employee.id AS id, 
-        CONCAT (employee.first_name, " ", employee.last_name) AS 'Employee Name',
+        `SELECT employee.id, 
+        CONCAT (employee.first_name, " ", employee.last_name) AS 'Name',
         role.title AS 'Job Title', 
-        role.salary AS Salary,
-        department.name AS Department,
-        FROM employee, role, department
-        WHERE department.id =role.department_id
-        AND role.id = employee.role_id
-        ORDER BY employee.id ASC`;
+        department.name AS 'Department',
+        role.salary AS 'Salary', 
+        CONCAT (manager.first_name, " ", manager.last_name) AS 'Manager'
+        FROM employee
+        LEFT JOIN role ON employee.role_id = role.id
+        LEFT JOIN department ON role.department_id = department.id
+        LEFT JOIN employee manager ON employee.manager_id = manager.id`;
     queryHandler(query);
+    confirmPrompt();
 };
 
 const viewDepartmentBudget = () => {
@@ -50,6 +53,7 @@ const viewDepartmentBudget = () => {
         INNER JOIN department ON role.department_id = department.id
         GROUP BY role.department_id`;
     queryHandler(query);
+    confirmPrompt()
 };
 
 const addRole = () => {
@@ -57,14 +61,15 @@ const addRole = () => {
         prompts.promptAddRole(deptArr)
             .then((answer) => {
                 const departmentID = answer.deptName
-                const query = `INSERT INTO roles (title, salary, department_id)
+                const query = `INSERT INTO role (title, salary, department_id)
             VALUES (?, ?, ?)`;
                 const params = [answer.roleName, answer.roleSalary, departmentID]
                 queryHandler(query, params);
+                console.log('Added Role successfully...\n');
+                viewRoles();
             });
-        console.log('Added Role successfully...\n');
+        
     });
-
 }
 
 const addEmployee = () => {
@@ -80,13 +85,67 @@ const addEmployee = () => {
                     const managerID = answer.empMan
                     const params = [answer.empFirstName, answer.empLastName, roleID, managerID,];
                     queryHandler(query, params);
+                    console.log('Added Employee successfully...\n');
+                    viewEmployees();
                 });
-            console.log('Added Employee successfully...\n');
+            
         });
     })
-
-
 }
 
-module.exports = { viewDepartments, viewRoles, viewEmployees, viewDepartmentBudget, addRole, addEmployee }
+const addDepartment = () => {
+    prompts.promptAddDepartment()
+        .then((answer) => {
+            const query = `INSERT INTO department (name) VALUES (?)`;
+            const params = [answer.addDept];
+            queryHandler(query, params);
+            console.log('Added Department successfully...\n');
+            viewDepartments();
+        });
+        
+}
+
+const removeEmployee = () => {
+    arrays.getEmpArr(empArr => {
+        prompts.promptRemoveEmployee(empArr)
+        .then((answer) => {
+            const query = `DELETE FROM employee WHERE id = ?`;
+            const id = answer.employeeNameRemove
+            const params = [id];
+            queryHandler(query, params);
+            console.log('Removed Employee successfully...\n');
+            viewEmployees();
+        })
+    })
+}
+
+const removeRole = () => {
+    arrays.getRoleArr(roleArr => {
+        prompts.promptRemoveRole(roleArr)
+        .then((answer) => {
+            const query = `DELETE FROM role WHERE id = ?`;
+            const id = answer.roleNameRemove
+            const params = [id];
+            queryHandler(query, params);
+            console.log('Removed Role successfully...\n');
+            viewRoles();
+        })
+    })
+}
+
+const removeDepartment = () => {
+    arrays.getDeptArr(deptArr => {
+        prompts.promptRemoveDepartment(deptArr)
+        .then((answer) => {
+            const query = `DELETE FROM department WHERE id = ?`;
+            const id = answer.departmentNameRemove
+            const params = [id];
+            queryHandler(query, params);
+            console.log('Removed Role successfully...\n');
+            viewDepartments();
+        })
+    })
+}
+
+module.exports = { viewDepartments, viewRoles, viewEmployees, viewDepartmentBudget, addRole, addEmployee, addDepartment, removeEmployee, removeDepartment, removeRole }
 
