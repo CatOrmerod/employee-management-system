@@ -76,8 +76,10 @@ const viewDepartments = () => {
         `SELECT department.id AS id,
         department.name AS 'Department'
         FROM department`;
-    queryHandler(query)
-    confirmPrompt();
+    queryHandler(query).then ((data) => { 
+        console.table(data)
+        confirmPrompt()
+    })
 };
 
 const viewRoles = () => {
@@ -88,8 +90,10 @@ const viewRoles = () => {
         department.name AS 'Department'
         FROM role
         INNER JOIN department ON role.department_id = department.id`;
-    queryHandler(query);
-    confirmPrompt();
+    queryHandler(query).then ((data) => { 
+        console.table(data)
+        confirmPrompt()
+    })
 };
 
 const viewEmployees = () => {
@@ -105,8 +109,10 @@ const viewEmployees = () => {
         LEFT JOIN role ON employee.role_id = role.id
         LEFT JOIN department ON role.department_id = department.id
         LEFT JOIN employee manager ON employee.manager_id = manager.id`;
-    queryHandler(query);
-    confirmPrompt();
+    queryHandler(query).then ((data) => { 
+        console.table(data)
+        confirmPrompt()
+    })
 };
 
 const viewDepartmentBudget = () => {
@@ -118,8 +124,10 @@ const viewDepartmentBudget = () => {
         FROM role
         INNER JOIN department ON role.department_id = department.id
         GROUP BY role.department_id`;
-    queryHandler(query);
-    confirmPrompt()
+    queryHandler(query).then ((data) => { 
+        console.table(data)
+        confirmPrompt()
+    })
 };
 
 const addRole = () => {
@@ -130,9 +138,10 @@ const addRole = () => {
                 const query = `INSERT INTO role (title, salary, department_id)
             VALUES (?, ?, ?)`;
                 const params = [answer.roleName, answer.roleSalary, departmentID]
-                queryHandler(query, params);
-                console.log('Added Role successfully...\n');
-                viewRoles();
+                queryHandler(query, params).then ((data) => { 
+                    console.table(data)
+                    viewRoles()
+                })
             });
         
     });
@@ -150,9 +159,11 @@ const addEmployee = () => {
                     const roleID = answer.empRole
                     const managerID = answer.empMan
                     const params = [answer.empFirstName, answer.empLastName, roleID, managerID,];
-                    queryHandler(query, params);
-                    console.log('Added Employee successfully...\n');
-                    viewEmployees();
+                    queryHandler(query, params).then ((data) => { 
+                        console.table(data)
+                        console.log('Added Employee successfully...\n');
+                        viewEmployees();
+                    })
                 });
             
         });
@@ -164,9 +175,12 @@ const addDepartment = () => {
         .then((answer) => {
             const query = `INSERT INTO department (name) VALUES (?)`;
             const params = [answer.addDept];
-            queryHandler(query, params);
-            console.log('Added Department successfully...\n');
-            viewDepartments();
+            queryHandler(query, params).then ((data) => { 
+                console.table(data)
+                console.log('Added Department successfully...\n');
+                viewDepartments();
+            })
+            
         });
         
 }
@@ -178,9 +192,12 @@ const removeEmployee = () => {
             const query = `DELETE FROM employee WHERE id = ?`;
             const id = answer.employeeNameRemove
             const params = [id];
-            queryHandler(query, params);
-            console.log('Removed Employee successfully...\n');
-            viewEmployees();
+            queryHandler(query, params).then ((data) => { 
+                console.table(data)
+                console.log('Removed Employee successfully...\n');
+                viewEmployees();
+            })
+            
         })
     })
 }
@@ -192,9 +209,12 @@ const removeRole = () => {
             const query = `DELETE FROM role WHERE id = ?`;
             const id = answer.roleNameRemove
             const params = [id];
-            queryHandler(query, params);
-            console.log('Removed Role successfully...\n');
-            viewRoles();
+            queryHandler(query, params).then ((data) => { 
+                console.table(data)
+                console.log('Removed Role successfully...\n');
+                viewRoles();
+            })
+            
         })
     })
 }
@@ -206,9 +226,12 @@ const removeDepartment = () => {
             const query = `DELETE FROM department WHERE id = ?`;
             const id = answer.departmentNameRemove
             const params = [id];
-            queryHandler(query, params);
-            console.log('Removed Role successfully...\n');
-            viewDepartments();
+            queryHandler(query, params).then ((data) => { 
+                console.table(data)
+                console.log('Removed Role successfully...\n');
+                viewDepartments();
+            })
+            
         })
     })
 }
@@ -222,9 +245,12 @@ const updateEmployeeRole = () => {
                 const roleId = answer.roleUpdate
                 const empId = answer.empNameUp
                 const params = [roleId, empId];
-                queryHandler(query, params);
-                console.log('Updated Employee Role...\n');
-                viewEmployees();
+                queryHandler(query, params).then ((data) => { 
+                    console.table(data)
+                    console.log('Updated Employee Role...\n');
+                    viewEmployees();
+                })
+                
             })
         })
     })
@@ -238,9 +264,12 @@ const updateEmployeeMan = () => {
                 const manId = answer.manUpdate
                 const empId = answer.empNameUp
                 const params = [manId, empId];
-                queryHandler(query, params);
-                console.log('Updated Employee Manager...\n');
-                viewEmployees();
+                queryHandler(query, params).then ((data) => { 
+                    console.table(data)
+                    console.log('Updated Employee Manager...\n');
+                    viewEmployees();
+                })
+                
             })
     })
 }
@@ -262,8 +291,10 @@ const viewEmployeeMan = () => {
                 WHERE employee.manager_id = ?`;
                 const manId = answer.managerEmp
                 const params = [manId];
-                queryHandler(query, params);
-                confirmPrompt()
+                queryHandler(query, params).then ((data) => { 
+                    console.table(data)
+                    confirmPrompt();
+                })
             })
     })
 }
@@ -283,8 +314,10 @@ const viewEmployeeDept = () => {
                 WHERE department_id = ?`;
                 const deptId = answer.departmentEmp
                 const params = [deptId];
-                queryHandler(query, params);
-                confirmPrompt()
+                queryHandler(query, params).then ((data) => { 
+                    console.table(data)
+                    confirmPrompt();
+                })
             })
     })
 }
