@@ -25,7 +25,6 @@ const getEmpArr = (cb) => {
 };
 
 const getRoleArr = (cb) => {
-    console.log('getting roles')
     const query = 
         `SELECT * from role`;
     connection.query(query, (err, res) => {
@@ -33,7 +32,6 @@ const getRoleArr = (cb) => {
         const roleArr = res.map(role => { 
             return {value: role.id, name: role.title }
         })
-        console.log('calling cb', roleArr)
         cb(roleArr)
     });
 };

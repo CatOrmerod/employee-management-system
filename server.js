@@ -1,5 +1,5 @@
 const logo = require('asciiart-logo')
-const { promptHandler, confirmPrompt } = require('./utils/index')
+const { promptHandler } = require('./utils/index')
 const connection = require('./utils/connection')
 
 connection.connect((err) => {

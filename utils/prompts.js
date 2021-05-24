@@ -1,5 +1,5 @@
 const inquirer = require('inquirer')
-const functions = require('./index')
+const { validateString , validateNumber } = require('./validate');
 const { deptArr, empArr, roleArr } = require('./arrays')
 
 const promptUser = () => {
@@ -41,11 +41,13 @@ const promptAddRole = (deptArr) => {
             type: 'input',
             name: 'roleName',
             message: 'What is the name of the new Role?',
+            validate: validateString
         },
         {
             type: 'number',
             name: 'roleSalary',
             message: ({ roleName }) => `What is the salary for a ${(roleName)}?`,
+            validate: validateNumber
         },
         {
             type: 'list',
@@ -56,17 +58,18 @@ const promptAddRole = (deptArr) => {
 }
 
 const promptAddEmployee = (roleArr, empArr) => {
-    console.log(empArr)
     return inquirer.prompt([
         {
             type: 'input',
             name: 'empFirstName',
             message: 'What is the employee first name?',
+            validate: validateString
         },
         {
             type: 'input',
             name: 'empLastName',
             message: ({ empFirstName }) => `What is ${(empFirstName)}'s Surname?`,
+            validate: validateString
         },
         {
             type: 'list',
@@ -165,5 +168,7 @@ const confirmPrompts = () => {
         message: 'Another Request or Exit?'
     })
 }
+
+
 
 module.exports = { promptUser, promptAddDepartment, promptAddRole, promptAddEmployee, promptRemoveDepartment, promptRemoveRole, promptRemoveEmployee, promptUpdateEmployeeRole, promptUpdateEmployeeMan, promptAddEmployee, promptEmpMan, promptEmpDept, confirmPrompts }

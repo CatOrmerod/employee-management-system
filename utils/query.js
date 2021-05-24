@@ -1,6 +1,4 @@
 const connection = require('./connection')
-const inquirer = require('inquirer')
-const {  promptHandler, confirmPrompt } = require('./index');
 
 // const queryHandler = (query, params, cb) => {
 //     //console.log(promptHandler)
